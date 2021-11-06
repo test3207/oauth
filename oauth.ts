@@ -86,12 +86,15 @@ const routes:{[route:string]:(req:http.IncomingMessage, res:http.ServerResponse,
             }
         );
 
-        res.writeHead(200);
-        res.end(`
-            <p>${JSON.stringify(oauthInfo)}</p>
-        `);
-        // res.writeHead(302, {'Location': cb + `?oauthInfo=${JSON.stringify(oauthInfo)}&state=${query.state}`});
-        // res.end();
+        if (!cb) {
+            res.writeHead(200);
+            res.end(`
+                <p>${oauthInfo}</p>
+            `);
+        } else {
+            res.writeHead(302, {'Location': decodeURIComponent(cb) + `?oauthInfo=${oauthInfo}&state=${query.state}`});
+            res.end();
+        }
     },
     '/health_check': (_, res) => {
         res.writeHead(200);
