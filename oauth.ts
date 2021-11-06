@@ -37,7 +37,7 @@ const routes:{[route:string]:(req:http.IncomingMessage, res:http.ServerResponse,
             default:
                 return next(new Error('unknow provider'));
         }
-        targetUrl = targetUrl.replace('REDIRECT_URI', encodeURI(config.oauthUrl + 'callback')).replace('STATE', [query.provider, query.env].toString()); // wechat remove all " here so have to be so ugly;
+        targetUrl = targetUrl.replace('REDIRECT_URI', encodeURI(config.oauthUrl + 'callback')).replace('STATE', [query.provider, query.env, query.cb].toString()); // hard to convert Object to json to encoded uri, so be it
         console.log(targetUrl);
         res.writeHead(302, {'Location': targetUrl});
         res.end();
@@ -62,7 +62,7 @@ const routes:{[route:string]:(req:http.IncomingMessage, res:http.ServerResponse,
         }
         console.log(query);
         console.log(decodeURIComponent(query.state as string));
-        const [ provider, env ] = (query.state as string).split(',');
+        const [ provider, env, cb ] = (query.state as string).split(',');
         let atUrl:string;
         switch (provider) {
             case Provider.github:
@@ -80,14 +80,17 @@ const routes:{[route:string]:(req:http.IncomingMessage, res:http.ServerResponse,
         let oauthInfo:any = await request(
             atUrl,
             provider === Provider.github
-            ? 'POST' : 'GET'
+            ? 'POST' : 'GET',
+            {
+                'Accept': 'application/json',
+            }
         );
 
         res.writeHead(200);
         res.end(`
             <p>${JSON.stringify(oauthInfo)}</p>
         `);
-        // res.writeHead(302, {'Location': backendUrl[env] + `?oauthInfo=${JSON.stringify(oauthInfo)}&state=${query.state}`});
+        // res.writeHead(302, {'Location': cb + `?oauthInfo=${JSON.stringify(oauthInfo)}&state=${query.state}`});
         // res.end();
     },
     '/health_check': (_, res) => {
