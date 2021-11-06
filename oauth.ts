@@ -20,7 +20,6 @@ const oauthProviders = {
         login: `https://github.com/login/oauth/authorize?client_id=${config.githubId}&redirect_uri=REDIRECT_URI&scope=user&state=STATE`,
         accessToken: `https://github.com/login/oauth/access_token?client_id=${config.githubId}&client_secret=${config.githubSecret}&code=CODE&redirect_uri=REDIRECT_URI`,
         getUser: `https://api.github.com/user`,
-        // curl -H "Authorization: token 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" https://api.github.com/user
     },
 };
 

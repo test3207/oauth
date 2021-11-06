@@ -13,5 +13,5 @@ export const config = {
 
 export const backendUrl = {
     development: 'https://local.test3207.com',
-    production: 'https://oauth.test3207.cn/',
+    production: 'https://oauth.test3207.com/',
 };
