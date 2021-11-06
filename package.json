@@ -1,0 +1,25 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1.js",
+  "dependencies": {
+    "md5": "^2.3.0",
+    "querystring": "^0.2.0",
+    "ts-loader": "^6.1.0",
+    "ts-node": "^6.2.0",
+    "tsify": "^3.0.4",
+    "tslib": "^2.3.1",
+    "tslint": "^5.11.0",
+    "tslint-language-service": "^0.9.9",
+    "typescript": "3.3.3"
+  },
+  "scripts": {
+    "start": "ts-node oauth.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.20.36"
+  }
+}
