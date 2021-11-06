@@ -19,7 +19,7 @@ const oauthProviders = {
     github: {
         login: `https://github.com/login/oauth/authorize?client_id=${config.githubId}&redirect_uri=REDIRECT_URI&scope=user&state=STATE`,
         accessToken: `https://github.com/login/oauth/access_token?client_id=${config.githubId}&client_secret=${config.githubSecret}&code=CODE&redirect_uri=REDIRECT_URI`,
-        getUser: `https://api.github.com/user`
+        getUser: `https://api.github.com/user`,
     },
 };
 
@@ -120,24 +120,15 @@ const routes:{[route:string]:(req:http.IncomingMessage, res:http.ServerResponse,
     },
     '/getUser': async (req, res, next) => {
         const query = querystring.parse(url.parse(req.url!).query!)
-        // if (!query.timestamp || !query.token || !query.provider) {
-        //     return next(new Error('Invalid params'));
-        // }
-        const { timestamp, token, provider, access_token, openid } = query;
-        // if (Math.abs(Number(timestamp) - Number(new Date())) > config.expireTime * 1000) {
-        //     return next(new Error('Outdated'));
-        // }
-        // if (md5(timestamp + config.oauthSecret) !== token) {
-        //     return next(new Error('Auth failed'));
-        // }
+        const { provider, access_token } = query;
         const base = oauthProviders[provider as string];
         if (!base) {
             return next(new Error('Unknow provider'));
         }
         const result = await request(base.getUser, 'GET', {
-            'Authorization': access_token,
+            'Authorization': `token ${access_token}`,
+            'User-Agent': `node.js@test3207`,
         });
-        console.log(result);
         res.writeHead(200);
         res.end(result);
     },
