@@ -3,6 +3,8 @@ import https from 'https';
 import url, { URL } from 'url';
 import querystring from 'querystring';
 import { config } from './config';
+import evilDns from 'evil-dns';
+evilDns.add('api.github.com', '52.69.239.207');
 
 export const enum Provider {
     github = 'github',
