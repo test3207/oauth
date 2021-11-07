@@ -4,6 +4,7 @@
   "description": "",
   "main": "1.js",
   "dependencies": {
+    "evil-dns": "^0.2.0",
     "md5": "^2.3.0",
     "querystring": "^0.2.0",
     "ts-loader": "^6.1.0",
